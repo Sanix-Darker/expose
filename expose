@@ -1,0 +1,15 @@
+#!/bin/bash
+# Tunnelling of your local running app to the internet
+
+# checking for arguments passed
+if [ $# -eq 0 ]; then
+    >&2 echo "Usage: expose <PORT>"
+    exit 1
+fi
+
+# Just check if ssh is available as a command or not
+if ! command -v ssh &> /dev/null; then echo "[-] ssh not installed..." && sudo apt-get install openssh-server; fi;
+
+# Use localhost.run to tunneling the traffic
+# First argument is the port
+ssh -R 80:localhost:$1 $USER@localhost.run
